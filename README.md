@@ -1,2 +1,2 @@
 # tcs1
-Repositório solicitado para o professor Jaderson
+Repositório solicitado pelo professor Jaderson
