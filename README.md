@@ -1,2 +1,2 @@
-# tcs1
+# WebSampler Studio
 Repositório solicitado pelo professor Jaderson
