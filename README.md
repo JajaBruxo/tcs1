@@ -1,2 +1,2 @@
 # WebSampler Studio
-Repositório solicitado pelo professor Jaderson
+Músicos, produtores musicais e estudantes de áudio frequentemente precisam de uma ferramenta rápida e acessível para disparar amostras sonoras (samples) e testar ideias musicais. No entanto, a maioria das soluções existentes exige a instalação de softwares pesados de produção musical (DAWs), configurações complexas de drivers de áudio e licenças pagas, o que limita a acessibilidade em computadores mais simples ou em momentos de estudo rápido.
