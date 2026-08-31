@@ -3,19 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebSampler Studio</title>
+  <title>WebSampler Studio - M-VAVE SMK-25</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="container">
     <h1>WebSampler Studio</h1>
-    <p>Pressione as teclas no teclado ou clique nos pads:</p>
+    <p id="midi-status">Status MIDI: Aguardando conexão...</p>
     
     <div class="pad-grid">
-      <button class="pad" data-key="a" data-note="C4">A (Dó)</button>
-      <button class="pad" data-key="s" data-note="D4">S (Ré)</button>
-      <button class="pad" data-key="d" data-note="E4">D (Mi)</button>
-      <button class="pad" data-key="f" data-note="F4">F (Fá)</button>
+      <!-- Pad A -->
+      <div class="pad-container">
+        <button class="pad" data-key="a">
+          <span class="key-badge">A</span>
+          <span class="sample-name">Sem Áudio</span>
+          <span class="midi-note-display">MIDI: --</span>
+        </button>
+        <input type="file" class="sample-input" accept="audio/*" data-key="a">
+        <button class="learn-btn" data-key="a">Mapear MIDI</button>
+      </div>
+
+      <!-- Pad S -->
+      <div class="pad-container">
+        <button class="pad" data-key="s">
+          <span class="key-badge">S</span>
+          <span class="sample-name">Sem Áudio</span>
+          <span class="midi-note-display">MIDI: --</span>
+        </button>
+        <input type="file" class="sample-input" accept="audio/*" data-key="s">
+        <button class="learn-btn" data-key="s">Mapear MIDI</button>
+      </div>
+
+      <!-- Pad D -->
+      <div class="pad-container">
+        <button class="pad" data-key="d">
+          <span class="key-badge">D</span>
+          <span class="sample-name">Sem Áudio</span>
+          <span class="midi-note-display">MIDI: --</span>
+        </button>
+        <input type="file" class="sample-input" accept="audio/*" data-key="d">
+        <button class="learn-btn" data-key="d">Mapear MIDI</button>
+      </div>
+
+      <!-- Pad F -->
+      <div class="pad-container">
+        <button class="pad" data-key="f">
+          <span class="key-badge">F</span>
+          <span class="sample-name">Sem Áudio</span>
+          <span class="midi-note-display">MIDI: --</span>
+        </button>
+        <input type="file" class="sample-input" accept="audio/*" data-key="f">
+        <button class="learn-btn" data-key="f">Mapear MIDI</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/audio.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSampler Studio - Efeitos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <h1>WebSampler Studio</h1>
+    <p id="midi-status">Status MIDI: Aguardando conexão...</p>
+    
+    <div class="pad-grid">
+      <!-- Pad A -->
+      <div class="pad-container">
+        <button class="pad" data-key="a">
+          <span class="key-badge">A</span>
+          <span class="sample-name">Sem Áudio</span>
+          <span class="midi-note-display">MIDI: --</span>
+        </button>
+        <input type="file" class="sample-input" accept="audio/*" data-key="a">
+        <button class="learn-btn" data-key="a">Mapear MIDI</button>
+        
+        <!-- Rack de Efeitos -->
+        <div class="fx-rack">
+          <label>Corte EQ (Cutoff):
+            <input type="range" class="fx-cutoff" data-key="a" min="20" max="20000" value="20000">
+          </label>
+          <label>Reverb:
+            <input type="range" class="fx-reverb" data-key="a" min="0" max="1" step="0.05" value="0">
+          </label>
+        </div>
+      </div>
+
+      <!-- Repita a mesma estrutura .fx-rack para os pads S, D e F -->
     </div>
   </main>
 

@@ -5,7 +5,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
 }
 
@@ -13,11 +13,22 @@ body {
   text-align: center;
 }
 
+#midi-status {
+  color: #00ff88;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
 .pad-grid {
   display: grid;
-  grid-template-columns: repeat(2, 120px);
-  gap: 15px;
-  margin-top: 20px;
+  grid-template-columns: repeat(2, 160px);
+  gap: 20px;
+}
+
+.pad-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .pad {
@@ -26,8 +37,10 @@ body {
   border: 2px solid #00ff88;
   border-radius: 8px;
   color: #ffffff;
-  font-size: 1.1rem;
-  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   transition: transform 0.05s, background-color 0.05s;
 }
@@ -36,4 +49,67 @@ body {
   background-color: #00ff88;
   color: #121212;
   transform: scale(0.95);
+}
+
+.key-badge {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.sample-name {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin-top: 4px;
+  max-width: 130px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.midi-note-display {
+  font-size: 0.7rem;
+  color: #00ff88;
+  margin-top: 4px;
+}
+
+.sample-input {
+  font-size: 0.75rem;
+  color: #aaaaaa;
+}
+
+.learn-btn {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.learn-btn.learning {
+  background-color: #ffaa00;
+  color: #000;
+  font-weight: bold;
+}
+.fx-rack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background-color: #1e1e1e;
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 6px;
+  font-size: 0.7rem;
+  text-align: left;
+}
+
+.fx-rack label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fx-rack input[type="range"] {
+  width: 70px;
 }
