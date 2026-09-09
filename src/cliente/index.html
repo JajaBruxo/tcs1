@@ -3,103 +3,154 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebSampler Studio - M-VAVE SMK-25</title>
+  <title>WebSampler Studio</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="container">
-    <h1>WebSampler Studio</h1>
-    <p id="midi-status">Status MIDI: Aguardando conexão...</p>
-    
-    <div class="pad-grid">
-      <!-- Pad A -->
-      <div class="pad-container">
-        <button class="pad" data-key="a">
-          <span class="key-badge">A</span>
-          <span class="sample-name">Sem Áudio</span>
-          <span class="midi-note-display">MIDI: --</span>
-        </button>
-        <input type="file" class="sample-input" accept="audio/*" data-key="a">
-        <button class="learn-btn" data-key="a">Mapear MIDI</button>
-      </div>
 
-      <!-- Pad S -->
-      <div class="pad-container">
-        <button class="pad" data-key="s">
-          <span class="key-badge">S</span>
-          <span class="sample-name">Sem Áudio</span>
-          <span class="midi-note-display">MIDI: --</span>
-        </button>
-        <input type="file" class="sample-input" accept="audio/*" data-key="s">
-        <button class="learn-btn" data-key="s">Mapear MIDI</button>
-      </div>
+  <!-- Barra de Navegação Superior -->
+  <header class="app-header">
+    <div class="logo">⚡ WebSampler</div>
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-target="view-pads">🎛️ Pads</button>
+      <button class="tab-btn" data-target="view-fx">🎚️ Efeitos & EQ</button>
+      <button class="tab-btn" data-target="view-midi">🎹 Configuração MIDI</button>
+    </nav>
+    <div class="midi-quick-status" id="quick-status">MIDI: Desconectado</div>
+  </header>
 
-      <!-- Pad D -->
-      <div class="pad-container">
-        <button class="pad" data-key="d">
-          <span class="key-badge">D</span>
-          <span class="sample-name">Sem Áudio</span>
-          <span class="midi-note-display">MIDI: --</span>
-        </button>
-        <input type="file" class="sample-input" accept="audio/*" data-key="d">
-        <button class="learn-btn" data-key="d">Mapear MIDI</button>
-      </div>
+  <main class="content-container">
 
-      <!-- Pad F -->
-      <div class="pad-container">
-        <button class="pad" data-key="f">
-          <span class="key-badge">F</span>
-          <span class="sample-name">Sem Áudio</span>
-          <span class="midi-note-display">MIDI: --</span>
-        </button>
-        <input type="file" class="sample-input" accept="audio/*" data-key="f">
-        <button class="learn-btn" data-key="f">Mapear MIDI</button>
-      </div>
-    </div>
-  </main>
+    <!-- TELA 1: PADS / SAMPLER -->
+    <section id="view-pads" class="view-panel active">
+      <h2>Estúdio de Amostras</h2>
+      <p class="subtitle">Arraste seus oneshots ou use os seletores para carregar sons.</p>
+      
+      <div class="pad-grid">
+        <div class="pad-card" data-key="a">
+          <div class="pad-trigger">
+            <span class="pad-key">A</span>
+            <span class="pad-name">Sem Som</span>
+          </div>
+          <input type="file" accept="audio/*" class="file-loader" data-key="a">
+        </div>
 
-  <script src="js/audio.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebSampler Studio - Efeitos</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <main class="container">
-    <h1>WebSampler Studio</h1>
-    <p id="midi-status">Status MIDI: Aguardando conexão...</p>
-    
-    <div class="pad-grid">
-      <!-- Pad A -->
-      <div class="pad-container">
-        <button class="pad" data-key="a">
-          <span class="key-badge">A</span>
-          <span class="sample-name">Sem Áudio</span>
-          <span class="midi-note-display">MIDI: --</span>
-        </button>
-        <input type="file" class="sample-input" accept="audio/*" data-key="a">
-        <button class="learn-btn" data-key="a">Mapear MIDI</button>
-        
-        <!-- Rack de Efeitos -->
-        <div class="fx-rack">
-          <label>Corte EQ (Cutoff):
-            <input type="range" class="fx-cutoff" data-key="a" min="20" max="20000" value="20000">
-          </label>
-          <label>Reverb:
-            <input type="range" class="fx-reverb" data-key="a" min="0" max="1" step="0.05" value="0">
-          </label>
+        <div class="pad-card" data-key="s">
+          <div class="pad-trigger">
+            <span class="pad-key">S</span>
+            <span class="pad-name">Sem Som</span>
+          </div>
+          <input type="file" accept="audio/*" class="file-loader" data-key="s">
+        </div>
+
+        <div class="pad-card" data-key="d">
+          <div class="pad-trigger">
+            <span class="pad-key">D</span>
+            <span class="pad-name">Sem Som</span>
+          </div>
+          <input type="file" accept="audio/*" class="file-loader" data-key="d">
+        </div>
+
+        <div class="pad-card" data-key="f">
+          <div class="pad-trigger">
+            <span class="pad-key">F</span>
+            <span class="pad-name">Sem Som</span>
+          </div>
+          <input type="file" accept="audio/*" class="file-loader" data-key="f">
         </div>
       </div>
+    </section>
 
-      <!-- Repita a mesma estrutura .fx-rack para os pads S, D e F -->
-    </div>
+    <!-- TELA 2: EFEITOS & PLUGINS -->
+    <section id="view-fx" class="view-panel">
+      <h2>Rack de Efeitos</h2>
+      <p class="subtitle">Ajuste os parâmetros dos filtros e da ambiência dos pads.</p>
+
+      <div class="fx-grid">
+        <div class="fx-card">
+          <h3>Filtro Lowpass (Cutoff)</h3>
+          <p>Corta as frequências agudas dos sons.</p>
+          <input type="range" id="master-cutoff" min="100" max="20000" value="20000">
+          <span class="value-display" id="cutoff-val">20000 Hz</span>
+        </div>
+
+        <div class="fx-card">
+          <h3>Espacialidade (Reverb)</h3>
+          <p>Adiciona profundidade e ambiência de sala.</p>
+          <input type="range" id="master-reverb" min="0" max="1" step="0.05" value="0">
+          <span class="value-display" id="reverb-val">0%</span>
+        </div>
+
+        <div class="fx-card">
+          <h3>Volume Principal</h3>
+          <p>Controle geral da saída de áudio.</p>
+          <input type="range" id="master-volume" min="0" max="1" step="0.01" value="0.8">
+          <span class="value-display" id="volume-val">80%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TELA 3: DISPOSITIVOS & MAPEAMENTO MIDI -->
+    <section id="view-midi" class="view-panel">
+      <h2>Dispositivos & Mapeamento</h2>
+      <p class="subtitle">Gerencie o M-VAVE SMK-25 ou qualquer teclado USB conectado.</p>
+
+      <div class="midi-dashboard">
+        <div class="status-box">
+          <div class="status-indicator" id="status-dot"></div>
+          <span id="detailed-midi-status">Aguardando permissão ou conexão USB...</span>
+        </div>
+
+        <h3>Notas Mapeadas</h3>
+        <ul class="mapping-list">
+          <li>Pad A ➔ Nota MIDI: <strong id="map-a">48 (C2)</strong></li>
+          <li>Pad S ➔ Nota MIDI: <strong id="map-s">50 (D2)</strong></li>
+          <li>Pad D ➔ Nota MIDI: <strong id="map-d">52 (E2)</strong></li>
+          <li>Pad F ➔ Nota MIDI: <strong id="map-f">53 (F2)</strong></li>
+        </ul>
+      </div>
+    </section>
+
   </main>
 
   <script src="js/audio.js"></script>
 </body>
 </html>
+<header class="app-header">
+  <div class="logo">⚡ WebSampler</div>
+  <nav class="nav-tabs">
+    <button class="tab-btn active" data-target="view-pads">🎛️ Pads</button>
+    <button class="tab-btn" data-target="view-fx">🎚️ Efeitos & EQ</button>
+    <button class="tab-btn" data-target="view-midi">🎹 Configuração MIDI</button>
+  </nav>
+  
+  <!-- Seletor de Modo de Resolução -->
+  <div class="header-tools">
+    <select id="resolution-selector" class="resolution-select">
+      <option value="auto">🖥️ Resolução: Auto</option>
+      <option value="res-mobile">📱 Mobile (375x667)</option>
+      <option value="res-tablet">📟 Tablet (768x1024)</option>
+      <option value="res-desktop">💻 Desktop (1280x800)</option>
+    </select>
+    <div class="midi-quick-status" id="quick-status">MIDI: Desconectado</div>
+  </div>
+</header>
+<header class="app-header">
+  <div class="logo">⚡ WebSampler</div>
+  <nav class="nav-tabs">
+    <button class="tab-btn active" data-target="view-pads">🎛️ Pads</button>
+    <button class="tab-btn" data-target="view-fx">🎚️ Efeitos & EQ</button>
+    <button class="tab-btn" data-target="view-midi">🎹 Configuração MIDI</button>
+  </nav>
+  
+  <!-- Seletor de Modo de Resolução -->
+  <div class="header-tools">
+    <select id="resolution-selector" class="resolution-select">
+      <option value="auto">🖥️ Resolução: Auto</option>
+      <option value="res-mobile">📱 Mobile (375x667)</option>
+      <option value="res-tablet">📟 Tablet (768x1024)</option>
+      <option value="res-desktop">💻 Desktop (1280x800)</option>
+    </select>
+    <div class="midi-quick-status" id="quick-status">MIDI: Desconectado</div>
+  </div>
+</header>
