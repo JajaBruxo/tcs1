@@ -2,7 +2,6 @@
 const tabs = document.querySelectorAll('.tab-btn');
 const views = document.querySelectorAll('.view-panel');
 
-
 tabs.forEach(tab => {
   tab.addEventListener('click', () => {
     tabs.forEach(t => t.classList.remove('active'));
@@ -18,7 +17,7 @@ tabs.forEach(tab => {
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 let audioCtx;
 
-const sampleBuffers = { '1': null, '2': null, '3': null, '4': null };
+const sampleBuffers = { a: null, s: null, d: null, f: null };
 
 // Master Nodes
 let masterGain, filterNode;
@@ -109,7 +108,7 @@ document.getElementById('master-volume').addEventListener('input', (e) => {
 });
 
 // --- COMUNICAÇÃO MIDI (TELA 3) ---
-const midiMap = { 48: '1', 50: '2', 52: '3', 53: '4' };
+const midiMap = { 48: 'a', 50: 's', 52: 'd', 53: 'f' };
 
 function setupMIDI() {
   if (!navigator.requestMIDIAccess) return;
@@ -147,10 +146,16 @@ function handleMIDI(e) {
 }
 
 setupMIDI();
-window.addEventListener('keydown', (e) => {
-  if (e.repeat) return;
-  const key = e.key.toLowerCase();
-  if (['1', '2', '3', '4'].includes(key)) {
-    triggerPad(key);
-  }
-});
+// Controle de Alternância de Resoluções
+const resSelector = document.getElementById('resolution-selector');
+
+if (resSelector) {
+  resSelector.addEventListener('change', (e) => {
+    const mode = e.target.value;
+    document.body.classList.remove('res-mobile', 'res-tablet', 'res-desktop');
+    
+    if (mode !== 'auto') {
+      document.body.classList.add(mode);
+    }
+  });
+}
