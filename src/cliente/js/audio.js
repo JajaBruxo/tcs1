@@ -240,3 +240,16 @@ document.querySelectorAll('.fx-reverb').forEach(input => {
     fxParams[key].reverb = parseFloat(e.target.value);
   });
 });
+// Controle de Alternância de Resoluções
+const resSelector = document.getElementById('resolution-selector');
+
+if (resSelector) {
+  resSelector.addEventListener('change', (e) => {
+    const mode = e.target.value;
+    document.body.classList.remove('res-mobile', 'res-tablet', 'res-desktop');
+    
+    if (mode !== 'auto') {
+      document.body.classList.add(mode);
+    }
+  });
+}

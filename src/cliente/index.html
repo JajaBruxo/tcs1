@@ -103,3 +103,22 @@
   <script src="js/audio.js"></script>
 </body>
 </html>
+<header class="app-header">
+  <div class="logo">⚡ WebSampler</div>
+  <nav class="nav-tabs">
+    <button class="tab-btn active" data-target="view-pads">🎛️ Pads</button>
+    <button class="tab-btn" data-target="view-fx">🎚️ Efeitos & EQ</button>
+    <button class="tab-btn" data-target="view-midi">🎹 Configuração MIDI</button>
+  </nav>
+  
+  <!-- Seletor de Modo de Resolução -->
+  <div class="header-tools">
+    <select id="resolution-selector" class="resolution-select">
+      <option value="auto">🖥️ Resolução: Auto</option>
+      <option value="res-mobile">📱 Mobile (375x667)</option>
+      <option value="res-tablet">📟 Tablet (768x1024)</option>
+      <option value="res-desktop">💻 Desktop (1280x800)</option>
+    </select>
+    <div class="midi-quick-status" id="quick-status">MIDI: Desconectado</div>
+  </div>
+</header>

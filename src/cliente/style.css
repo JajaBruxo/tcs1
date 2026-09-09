@@ -113,3 +113,97 @@ body {
 .fx-rack input[type="range"] {
   width: 70px;
 }
+/* =========================================
+   RESOLUÇÃO 1: DESKTOP (Padrão > 900px)
+========================================= */
+@media screen and (min-width: 901px) {
+  .content-container {
+    max-width: 800px;
+    padding: 30px;
+  }
+  .pad-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .fx-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+body.res-desktop .content-container { max-width: 800px; padding: 30px; }
+body.res-desktop .pad-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+body.res-desktop .fx-grid { grid-template-columns: repeat(3, 1fr); }
+
+/* =========================================
+   RESOLUÇÃO 2: TABLET (481px até 900px)
+========================================= */
+@media screen and (max-width: 900px) and (min-width: 481px) {
+  .content-container {
+    max-width: 600px;
+    padding: 20px;
+  }
+  .pad-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .pad-trigger {
+    height: 100px;
+  }
+  .fx-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+body.res-tablet .content-container { max-width: 600px; padding: 20px; }
+body.res-tablet .pad-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+body.res-tablet .pad-trigger { height: 100px; }
+body.res-tablet .fx-grid { grid-template-columns: repeat(2, 1fr); }
+
+/* =========================================
+   RESOLUÇÃO 3: MOBILE (Até 480px)
+========================================= */
+@media screen and (max-width: 480px) {
+  .app-header {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+  .nav-tabs {
+    width: 100%;
+    justify-content: center;
+  }
+  .tab-btn {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+  .content-container {
+    width: 100%;
+    max-width: 360px;
+    padding: 10px;
+  }
+  .pad-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .pad-trigger {
+    height: 70px;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+  .pad-key {
+    font-size: 1.4rem;
+  }
+  .fx-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+body.res-mobile .app-header { flex-direction: column; gap: 10px; padding: 10px; }
+body.res-mobile .nav-tabs { width: 100%; justify-content: center; }
+body.res-mobile .tab-btn { padding: 6px 10px; font-size: 0.75rem; }
+body.res-mobile .content-container { width: 100%; max-width: 360px; padding: 10px; }
+body.res-mobile .pad-grid { grid-template-columns: 1fr; gap: 10px; }
+body.res-mobile .pad-trigger { height: 70px; flex-direction: row; justify-content: space-between; padding: 0 20px; }
+body.res-mobile .pad-key { font-size: 1.4rem; }
+body.res-mobile .fx-grid { grid-template-columns: 1fr; }
