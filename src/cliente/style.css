@@ -1,118 +1,279 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #121212;
-  color: #ffffff;
+  background-color: #0b0c10;
+  color: #c5c6c7;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Header & Tabs */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1f2833;
+  padding: 14px 28px;
+  border-bottom: 1px solid #2f3e46;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #66fcf1;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 12px;
+}
+
+.tab-btn {
+  background: #0b0c10;
+  border: 1px solid #45a29e;
+  color: #c5c6c7;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.tab-btn:hover {
+  background-color: #1f2833;
+  color: #66fcf1;
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #45a29e, #66fcf1);
+  color: #0b0c10;
+  font-weight: bold;
+  border-color: #66fcf1;
+  box-shadow: 0 0 10px rgba(102, 252, 241, 0.4);
+}
+
+.midi-quick-status {
+  font-size: 0.85rem;
+  color: #8b949e;
+}
+
+/* Painéis de Conteúdo */
+.content-container {
+  flex: 1;
+  padding: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  margin: 0;
 }
 
-.container {
+.view-panel {
+  display: none;
+  width: 100%;
+  max-width: 750px;
   text-align: center;
 }
 
-#midi-status {
-  color: #00ff88;
-  font-weight: bold;
-  margin-bottom: 20px;
+.view-panel.active {
+  display: block;
 }
 
+.subtitle {
+  color: #8b949e;
+  margin-bottom: 25px;
+  font-size: 0.95rem;
+}
+
+/* TELA 1: PADS */
 .pad-grid {
   display: grid;
-  grid-template-columns: repeat(2, 160px);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
 
-.pad-container {
+.pad-card {
+  background-color: #1f2833;
+  border: 1px solid #2f3e46;
+  border-radius: 12px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
-.pad {
+.pad-trigger {
   height: 120px;
-  background-color: #2a2a2a;
-  border: 2px solid #00ff88;
+  background-color: #0b0c10;
+  border: 2px solid #2f3e46;
   border-radius: 8px;
-  color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: transform 0.05s, background-color 0.05s;
+  transition: transform 0.05s, border-color 0.15s, box-shadow 0.15s;
 }
 
-.pad:active, .pad.active {
-  background-color: #00ff88;
-  color: #121212;
-  transform: scale(0.95);
+.pad-trigger:hover {
+  border-color: #45a29e;
 }
 
-.key-badge {
-  font-size: 1.5rem;
+.pad-trigger:active, .pad-trigger.active {
+  background: linear-gradient(135deg, #7b2cbf, #66fcf1);
+  border-color: #66fcf1;
+  box-shadow: 0 0 18px rgba(102, 252, 241, 0.6);
+  transform: scale(0.97);
+}
+
+.pad-trigger:active .pad-key,
+.pad-trigger:active .pad-name,
+.pad-trigger.active .pad-key,
+.pad-trigger.active .pad-name {
+  color: #0b0c10;
+}
+
+.pad-key {
+  font-size: 2rem;
   font-weight: bold;
+  color: #66fcf1;
 }
 
-.sample-name {
-  font-size: 0.8rem;
-  opacity: 0.8;
-  margin-top: 4px;
-  max-width: 130px;
+.pad-name {
+  font-size: 0.85rem;
+  color: #8b949e;
+  max-width: 90%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.midi-note-display {
-  font-size: 0.7rem;
-  color: #00ff88;
-  margin-top: 4px;
-}
-
-.sample-input {
+.file-loader {
   font-size: 0.75rem;
-  color: #aaaaaa;
+  color: #8b949e;
 }
 
-.learn-btn {
-  background-color: #333;
-  color: #fff;
-  border: 1px solid #555;
-  padding: 6px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.75rem;
+/* TELA 2: RACK FX */
+.fx-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
 }
 
-.learn-btn.learning {
-  background-color: #ffaa00;
-  color: #000;
-  font-weight: bold;
-}
-.fx-rack {
+.fx-card {
+  background-color: #1f2833;
+  border: 1px solid #2f3e46;
+  border-radius: 10px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  background-color: #1e1e1e;
-  padding: 8px;
-  border-radius: 4px;
-  margin-top: 6px;
-  font-size: 0.7rem;
+  gap: 10px;
   text-align: left;
 }
 
-.fx-rack label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.fx-card h3 {
+  font-size: 1rem;
+  color: #e6e6e6;
 }
 
-.fx-rack input[type="range"] {
-  width: 70px;
+.fx-card p {
+  font-size: 0.75rem;
+  color: #8b949e;
 }
+
+.fx-card input[type="range"] {
+  width: 100%;
+  margin-top: 10px;
+  accent-color: #66fcf1;
+}
+
+.value-display {
+  font-size: 0.8rem;
+  color: #66fcf1;
+  font-weight: bold;
+}
+
+/* TELA 3: MIDI */
+.midi-dashboard {
+  background-color: #1f2833;
+  border: 1px solid #2f3e46;
+  border-radius: 10px;
+  padding: 25px;
+  text-align: left;
+}
+
+.status-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background-color: #0b0c10;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border: 1px solid #2f3e46;
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #e63946;
+}
+
+.status-indicator.connected {
+  background-color: #66fcf1;
+  box-shadow: 0 0 8px #66fcf1;
+}
+
+.mapping-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.mapping-list li {
+  background: #0b0c10;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  border: 1px solid #2f3e46;
+}
+
+.mapping-list strong {
+  color: #66fcf1;
+}
+/* Seletor de Resolução no Topo */
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.resolution-select {
+  background-color: #0b0c10;
+  color: #66fcf1;
+  border: 1px solid #45a29e;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Container Responsivo */
+.content-container {
+  transition: max-width 0.3s ease, padding 0.3s ease;
+  margin: 0 auto;
+}
+
 /* =========================================
    RESOLUÇÃO 1: DESKTOP (Padrão > 900px)
 ========================================= */
