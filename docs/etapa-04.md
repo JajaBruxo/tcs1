@@ -5,34 +5,34 @@
 ### Funcionalidade 1: Gestor de Presets com Validação Estrita de Formulário
 
 - **Descrição:** Permite criar perfis de sessão musical especificando o nome do kit, andamento em BPM e género musical.
-- **Funcionamento:** O formulário interceta a submissão via `e.preventDefault()`, valida individualmente se o nome possui 3 ou mais carateres, se o BPM está compreendido entre 40 e 240, e se uma categoria foi selecionada. Se os dados forem válidos, cria um objeto e adiciona-o ao array `presetsList`; caso contrário, assinala os campos incorretos e apresenta mensagens de erro[cite: 4].
-- **Ficheiros Envolvidos:** `src/client/index.html`, `src/client/style.css`, `src/client/js/audio.js`[cite: 4].
-- **Conceitos de Programação:** Tratamento de eventos (`submit`), validação lógica com condicionais, manipulação do DOM e classes dinâmicas (`.input-invalid`)[cite: 4].
+- **Funcionamento:** O formulário interceta a submissão via `e.preventDefault()`, valida individualmente se o nome possui 3 ou mais carateres, se o BPM está compreendido entre 40 e 240, e se uma categoria foi selecionada. Se os dados forem válidos, cria um objeto e adiciona-o ao array `presetsList`; caso contrário, assinala os campos incorretos e apresenta mensagens de erro.
+- **Ficheiros Envolvidos:** `src/client/index.html`, `src/client/style.css`, `src/client/js/audio.js`.
+- **Conceitos de Programação:** Tratamento de eventos (`submit`), validação lógica com condicionais, manipulação do DOM e classes dinâmicas (`.input-invalid`).
 
 ### Funcionalidade 2: Listagem Dinâmica e Filtragem de Dados em Memória
 
-- **Descrição:** Renderiza a lista de presets guardados e disponibiliza botões de filtro rápido por estilo musical[cite: 4].
-- **Funcionamento:** O estado é gerido através de um array de objetos[cite: 4]. A função `renderPresets()` aplica o método `.filter()` sobre o array consoante a categoria ativa e utiliza `.forEach()` para criar dinamicamente os elementos HTML com botões de remoção (`.btn-delete-preset`) associados ao ID único de cada item[cite: 4].
-- **Ficheiros Envolvidos:** `src/client/index.html`, `src/client/js/audio.js`[cite: 4].
-- **Conceitos de Programação:** Estruturas de dados (arrays de objetos), métodos de iteração (`.filter()`, `.forEach()`) e manipulação direta de nós do DOM (`createElement`, `appendChild`)[cite: 4].
+- **Descrição:** Renderiza a lista de presets guardados e disponibiliza botões de filtro rápido por estilo musical.
+- **Funcionamento:** O estado é gerido através de um array de objetos. A função `renderPresets()` aplica o método `.filter()` sobre o array consoante a categoria ativa e utiliza `.forEach()` para criar dinamicamente os elementos HTML com botões de remoção (`.btn-delete-preset`) associados ao ID único de cada item.
+- **Ficheiros Envolvidos:** `src/client/index.html`, `src/client/js/audio.js`.
+- **Conceitos de Programação:** Estruturas de dados (arrays de objetos), métodos de iteração (`.filter()`, `.forEach()`) e manipulação direta de nós do DOM (`createElement`, `appendChild`).
 
 ### Funcionalidade 3: Mesa de Mistura com Controlo Individual de Efeitos e MIDI Learn
 
-- **Descrição:** Controlo de áudio independente para cada um dos 4 canais de pads (frequência de corte Lowpass, ressonância Q e ganho), com suporte para aprendizagem dinâmica de notas MIDI do controlador físico[cite: 4].
-- **Funcionamento:** Cada pad alimenta nós de áudio dedicados (`BiquadFilterNode` e `GainNode`) instanciados pela Web Audio API com valores guardados no objeto `padEffects`. A interface escuta o evento `input` dos faders e atualiza os parâmetros em tempo real. O sistema Web MIDI capta as mensagens de entrada e permite remapear dinamicamente as notas atribuídas através do botão "Aprender"[cite: 4].
-- **Ficheiros Envolvidos:** `src/client/index.html`, `src/client/style.css`, `src/client/js/audio.js`[cite: 4].
-- **Conceitos de Programação:** Web Audio API, Web MIDI API, manipulação de objetos e tratamento de eventos em lote (`querySelectorAll`)[cite: 4].
+- **Descrição:** Controlo de áudio independente para cada um dos 4 canais de pads (frequência de corte Lowpass, ressonância Q e ganho), com suporte para aprendizagem dinâmica de notas MIDI do controlador físico.
+- **Funcionamento:** Cada pad alimenta nós de áudio dedicados (`BiquadFilterNode` e `GainNode`) instanciados pela Web Audio API com valores guardados no objeto `padEffects`. A interface escuta o evento `input` dos faders e atualiza os parâmetros em tempo real. O sistema Web MIDI capta as mensagens de entrada e permite remapear dinamicamente as notas atribuídas através do botão "Aprender".
+- **Ficheiros Envolvidos:** `src/client/index.html`, `src/client/style.css`, `src/client/js/audio.js`.
+- **Conceitos de Programação:** Web Audio API, Web MIDI API, manipulação de objetos e tratamento de eventos em lote (`querySelectorAll`).
 
 ---
 
 ## 2. Validações e Tratamento de Situações Inválidas
 
-1. **Validação do Nome do Preset:** Impede strings vazias ou nomes com menos de 3 carateres, exibindo texto de correção específico[cite: 4].
-2. **Validação de Intervalo de BPM:** Rejeita valores não numéricos, nulos ou fora da margem de operação musical permitida (40 a 240 BPM)[cite: 4].
-3. **Seleção de Categoria Obrigatória:** Garante que o seletor não seja enviado com o estado nulo/padrão[cite: 4].
-4. **Ficheiro de Áudio Inválido:** Verifica se o ficheiro inserido no pad pertence ao tipo MIME `audio/*`. Caso o utilizador tente anexar imagens, textos ou executáveis, a entrada é descartada e um aviso visual (`#file-error-banner`) é exibido[cite: 4].
-5. **Amostra de Áudio Corrompida:** Trata exceções assíncronas no callback de erro da função `decodeAudioData`[cite: 4].
-6. **Prevenção de Disparo Acidental:** Os atalhos de teclado (teclas 1 a 4) são automaticamente ignorados quando o foco está sobre campos de formulário (`<input>` ou `<select>`), evitando disparos indevidos durante a escrita[cite: 4].
+1. **Validação do Nome do Preset:** Impede strings vazias ou nomes com menos de 3 carateres, exibindo texto de correção específico.
+2. **Validação de Intervalo de BPM:** Rejeita valores não numéricos, nulos ou fora da margem de operação musical permitida (40 a 240 BPM).
+3. **Seleção de Categoria Obrigatória:** Garante que o seletor não seja enviado com o estado nulo/padrão.
+4. **Ficheiro de Áudio Inválido:** Verifica se o ficheiro inserido no pad pertence ao tipo MIME `audio/*`. Caso o utilizador tente anexar imagens, textos ou executáveis, a entrada é descartada e um aviso visual (`#file-error-banner`) é exibido.
+5. **Amostra de Áudio Corrompida:** Trata exceções assíncronas no callback de erro da função `decodeAudioData`.
+6. **Prevenção de Disparo Acidental:** Os atalhos de teclado (teclas 1 a 4) são automaticamente ignorados quando o foco está sobre campos de formulário (`<input>` ou `<select>`), evitando disparos indevidos durante a escrita.
 
 ---
 
