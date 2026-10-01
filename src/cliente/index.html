@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,105 +8,288 @@
 </head>
 <body>
 
-  <!-- Barra de Navegação Superior -->
+  <!-- Barra Superior -->
   <header class="app-header">
     <div class="logo">⚡ WebSampler</div>
     <nav class="nav-tabs">
       <button class="tab-btn active" data-target="view-pads">🎛️ Pads</button>
       <button class="tab-btn" data-target="view-fx">🎚️ Efeitos & EQ</button>
+      <button class="tab-btn" data-target="view-presets">💾 Presets & Sessão</button>
       <button class="tab-btn" data-target="view-midi">🎹 Configuração MIDI</button>
     </nav>
-    <div class="midi-quick-status" id="quick-status">MIDI: Desconectado</div>
+    
+    <div class="header-tools">
+      <select id="resolution-selector" class="resolution-select">
+        <option value="auto">🖥️ Resolução: Automática</option>
+        <option value="res-mobile-sm">📱 Mobile Compacto (360x640)</option>
+        <option value="res-mobile-lg">📱 Mobile Pro Max (430x932)</option>
+        <option value="res-tablet-v">📟 Tablet Vertical (768x1024)</option>
+        <option value="res-tablet-h">📟 Tablet Horizontal (1024x768)</option>
+        <option value="res-desktop">💻 Laptop / Desktop (1280x800)</option>
+        <option value="res-ultrawide">🖥️ Studio Ultrawide (1920x1080)</option>
+      </select>
+      <div class="midi-quick-status" id="quick-status">MIDI: Desconectado</div>
+    </div>
   </header>
 
   <main class="content-container">
 
-    <!-- TELA 1: PADS / SAMPLER -->
+    <!-- TELA 1: PADS -->
     <section id="view-pads" class="view-panel active">
-      <h2>Estúdio de Amostras</h2>
-      <p class="subtitle">Arraste seus oneshots ou use os seletores para carregar sons.</p>
-      
+      <div class="panel-header">
+        <h2>Estúdio de Amostras</h2>
+        <p class="subtitle">Dispare com as teclas 1 a 4, toque nas almofadas táteis ou utilize o controlador MIDI.</p>
+      </div>
+
+      <div id="file-error-banner" class="alert-banner hidden"></div>
+
       <div class="pad-grid">
-        <div class="pad-card" data-key="a">
+        <!-- Pad 1 -->
+        <div class="pad-card" data-key="1">
           <div class="pad-trigger">
-            <span class="pad-key">A</span>
-            <span class="pad-name">Sem Som</span>
+            <span class="pad-led"></span>
+            <span class="pad-key">1</span>
+            <span class="pad-name">Vazio</span>
           </div>
-          <input type="file" accept="audio/*" class="file-loader" data-key="a">
+          <label class="file-upload-btn">
+            <span>📂 Carregar</span>
+            <input type="file" accept="audio/*" class="file-loader" data-key="1">
+          </label>
         </div>
 
-        <div class="pad-card" data-key="s">
+        <!-- Pad 2 -->
+        <div class="pad-card" data-key="2">
           <div class="pad-trigger">
-            <span class="pad-key">S</span>
-            <span class="pad-name">Sem Som</span>
+            <span class="pad-led"></span>
+            <span class="pad-key">2</span>
+            <span class="pad-name">Vazio</span>
           </div>
-          <input type="file" accept="audio/*" class="file-loader" data-key="s">
+          <label class="file-upload-btn">
+            <span>📂 Carregar</span>
+            <input type="file" accept="audio/*" class="file-loader" data-key="2">
+          </label>
         </div>
 
-        <div class="pad-card" data-key="d">
+        <!-- Pad 3 -->
+        <div class="pad-card" data-key="3">
           <div class="pad-trigger">
-            <span class="pad-key">D</span>
-            <span class="pad-name">Sem Som</span>
+            <span class="pad-led"></span>
+            <span class="pad-key">3</span>
+            <span class="pad-name">Vazio</span>
           </div>
-          <input type="file" accept="audio/*" class="file-loader" data-key="d">
+          <label class="file-upload-btn">
+            <span>📂 Carregar</span>
+            <input type="file" accept="audio/*" class="file-loader" data-key="3">
+          </label>
         </div>
 
-        <div class="pad-card" data-key="f">
+        <!-- Pad 4 -->
+        <div class="pad-card" data-key="4">
           <div class="pad-trigger">
-            <span class="pad-key">F</span>
-            <span class="pad-name">Sem Som</span>
+            <span class="pad-led"></span>
+            <span class="pad-key">4</span>
+            <span class="pad-name">Vazio</span>
           </div>
-          <input type="file" accept="audio/*" class="file-loader" data-key="f">
+          <label class="file-upload-btn">
+            <span>📂 Carregar</span>
+            <input type="file" accept="audio/*" class="file-loader" data-key="4">
+          </label>
         </div>
       </div>
     </section>
 
-    <!-- TELA 2: EFEITOS & PLUGINS -->
+    <!-- TELA 2: MESA DE MISTURA E CANAIS INDIVIDUAIS -->
     <section id="view-fx" class="view-panel">
-      <h2>Rack de Efeitos</h2>
-      <p class="subtitle">Ajuste os parâmetros dos filtros e da ambiência dos pads.</p>
+      <div class="panel-header">
+        <h2>Mesa de Mistura & Efeitos por Pad</h2>
+        <p class="subtitle">Ajuste individualmente a equalização, corte e volume de cada canal de áudio.</p>
+      </div>
 
-      <div class="fx-grid">
-        <div class="fx-card">
-          <h3>Filtro Lowpass (Cutoff)</h3>
-          <p>Corta as frequências agudas dos sons.</p>
-          <input type="range" id="master-cutoff" min="100" max="20000" value="20000">
-          <span class="value-display" id="cutoff-val">20000 Hz</span>
+      <div class="mixer-console">
+        <!-- Canal Pad 1 -->
+        <div class="channel-strip" data-pad="1">
+          <div class="strip-header">PAD 1</div>
+          <div class="fx-control">
+            <label>Cutoff EQ</label>
+            <input type="range" class="fx-cutoff" data-pad="1" min="100" max="20000" value="20000">
+            <span class="strip-val" id="val-cutoff-1">20000 Hz</span>
+          </div>
+          <div class="fx-control">
+            <label>Ressonância (Q)</label>
+            <input type="range" class="fx-q" data-pad="1" min="0.1" max="15" step="0.1" value="1">
+            <span class="strip-val" id="val-q-1">1.0</span>
+          </div>
+          <div class="fx-control">
+            <label>Ganho do Canal</label>
+            <input type="range" class="fx-vol" data-pad="1" min="0" max="1" step="0.05" value="1">
+            <span class="strip-val" id="val-vol-1">100%</span>
+          </div>
         </div>
 
-        <div class="fx-card">
-          <h3>Espacialidade (Reverb)</h3>
-          <p>Adiciona profundidade e ambiência de sala.</p>
-          <input type="range" id="master-reverb" min="0" max="1" step="0.05" value="0">
-          <span class="value-display" id="reverb-val">0%</span>
+        <!-- Canal Pad 2 -->
+        <div class="channel-strip" data-pad="2">
+          <div class="strip-header">PAD 2</div>
+          <div class="fx-control">
+            <label>Cutoff EQ</label>
+            <input type="range" class="fx-cutoff" data-pad="2" min="100" max="20000" value="20000">
+            <span class="strip-val" id="val-cutoff-2">20000 Hz</span>
+          </div>
+          <div class="fx-control">
+            <label>Ressonância (Q)</label>
+            <input type="range" class="fx-q" data-pad="2" min="0.1" max="15" step="0.1" value="1">
+            <span class="strip-val" id="val-q-2">1.0</span>
+          </div>
+          <div class="fx-control">
+            <label>Ganho do Canal</label>
+            <input type="range" class="fx-vol" data-pad="2" min="0" max="1" step="0.05" value="1">
+            <span class="strip-val" id="val-vol-2">100%</span>
+          </div>
         </div>
 
-        <div class="fx-card">
-          <h3>Volume Principal</h3>
-          <p>Controle geral da saída de áudio.</p>
-          <input type="range" id="master-volume" min="0" max="1" step="0.01" value="0.8">
-          <span class="value-display" id="volume-val">80%</span>
+        <!-- Canal Pad 3 -->
+        <div class="channel-strip" data-pad="3">
+          <div class="strip-header">PAD 3</div>
+          <div class="fx-control">
+            <label>Cutoff EQ</label>
+            <input type="range" class="fx-cutoff" data-pad="3" min="100" max="20000" value="20000">
+            <span class="strip-val" id="val-cutoff-3">20000 Hz</span>
+          </div>
+          <div class="fx-control">
+            <label>Ressonância (Q)</label>
+            <input type="range" class="fx-q" data-pad="3" min="0.1" max="15" step="0.1" value="1">
+            <span class="strip-val" id="val-q-3">1.0</span>
+          </div>
+          <div class="fx-control">
+            <label>Ganho do Canal</label>
+            <input type="range" class="fx-vol" data-pad="3" min="0" max="1" step="0.05" value="1">
+            <span class="strip-val" id="val-vol-3">100%</span>
+          </div>
+        </div>
+
+        <!-- Canal Pad 4 -->
+        <div class="channel-strip" data-pad="4">
+          <div class="strip-header">PAD 4</div>
+          <div class="fx-control">
+            <label>Cutoff EQ</label>
+            <input type="range" class="fx-cutoff" data-pad="4" min="100" max="20000" value="20000">
+            <span class="strip-val" id="val-cutoff-4">20000 Hz</span>
+          </div>
+          <div class="fx-control">
+            <label>Ressonância (Q)</label>
+            <input type="range" class="fx-q" data-pad="4" min="0.1" max="15" step="0.1" value="1">
+            <span class="strip-val" id="val-q-4">1.0</span>
+          </div>
+          <div class="fx-control">
+            <label>Ganho do Canal</label>
+            <input type="range" class="fx-vol" data-pad="4" min="0" max="1" step="0.05" value="1">
+            <span class="strip-val" id="val-vol-4">100%</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- TELA 3: DISPOSITIVOS & MAPEAMENTO MIDI -->
+    <!-- TELA 3: GESTOR DE PRESETS E SESSÃO -->
+    <section id="view-presets" class="view-panel">
+      <div class="panel-header">
+        <h2>Gestor de Presets & Sessão</h2>
+        <p class="subtitle">Guarde perfis com parâmetros de andamento e filtre por categoria.</p>
+      </div>
+
+      <div class="preset-layout">
+        <!-- Formulário com validação -->
+        <form id="preset-form" class="preset-form" novalidate>
+          <h3>Novo Preset</h3>
+          
+          <div class="form-group">
+            <label for="preset-name">Nome do Preset:</label>
+            <input type="text" id="preset-name" placeholder="Ex: BoomBap Vintage">
+            <small class="error-msg" id="err-name"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="preset-bpm">BPM (40 a 240):</label>
+            <input type="number" id="preset-bpm" placeholder="90">
+            <small class="error-msg" id="err-bpm"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="preset-category">Género / Estilo:</label>
+            <select id="preset-category">
+              <option value="">Selecione uma opção...</option>
+              <option value="Eletrónica">Eletrónica</option>
+              <option value="Hip-Hop">Hip-Hop</option>
+              <option value="Rock">Rock</option>
+              <option value="Experimental">Experimental</option>
+            </select>
+            <small class="error-msg" id="err-category"></small>
+          </div>
+
+          <button type="submit" class="btn-submit">Guardar Preset</button>
+        </form>
+
+        <!-- Filtros e Lista Dinâmica -->
+        <div class="preset-list-container">
+          <div class="filter-bar">
+            <span style="font-size: 0.8rem; color: #8b949e;">Filtrar:</span>
+            <button class="filter-btn active" data-filter="Todos">Todos</button>
+            <button class="filter-btn" data-filter="Eletrónica">Eletrónica</button>
+            <button class="filter-btn" data-filter="Hip-Hop">Hip-Hop</button>
+            <button class="filter-btn" data-filter="Rock">Rock</button>
+          </div>
+
+          <div id="presets-container" class="presets-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TELA 4: SETUP MIDI COM MIDI LEARN -->
     <section id="view-midi" class="view-panel">
-      <h2>Dispositivos & Mapeamento</h2>
-      <p class="subtitle">Gerencie o M-VAVE SMK-25 ou qualquer teclado USB conectado.</p>
+      <div class="panel-header">
+        <h2>Dispositivos & Mapeamento MIDI</h2>
+        <p class="subtitle">Conecte o seu controlador (ex: M-VAVE SMK-25) e mapeie notas em tempo real.</p>
+      </div>
 
       <div class="midi-dashboard">
         <div class="status-box">
           <div class="status-indicator" id="status-dot"></div>
-          <span id="detailed-midi-status">Aguardando permissão ou conexão USB...</span>
+          <span id="detailed-midi-status">À procura de dispositivos MIDI...</span>
         </div>
 
-        <h3>Notas Mapeadas</h3>
+        <div class="midi-live-monitor">
+          <span>Último Sinal Recebido:</span>
+          <strong id="midi-last-note">Aguardando toque...</strong>
+        </div>
+
+        <h3 style="margin-bottom: 12px; font-size: 0.95rem;">Mapeamento dos Pads</h3>
         <ul class="mapping-list">
-          <li>Pad A ➔ Nota MIDI: <strong id="map-a">48 (C2)</strong></li>
-          <li>Pad S ➔ Nota MIDI: <strong id="map-s">50 (D2)</strong></li>
-          <li>Pad D ➔ Nota MIDI: <strong id="map-d">52 (E2)</strong></li>
-          <li>Pad F ➔ Nota MIDI: <strong id="map-f">53 (F2)</strong></li>
+          <li class="midi-map-row">
+            <span>Pad 1</span>
+            <div class="map-actions">
+              Nota: <strong id="map-1">48</strong>
+              <button type="button" class="btn-learn" data-pad="1">Aprender</button>
+            </div>
+          </li>
+          <li class="midi-map-row">
+            <span>Pad 2</span>
+            <div class="map-actions">
+              Nota: <strong id="map-2">50</strong>
+              <button type="button" class="btn-learn" data-pad="2">Aprender</button>
+            </div>
+          </li>
+          <li class="midi-map-row">
+            <span>Pad 3</span>
+            <div class="map-actions">
+              Nota: <strong id="map-3">52</strong>
+              <button type="button" class="btn-learn" data-pad="3">Aprender</button>
+            </div>
+          </li>
+          <li class="midi-map-row">
+            <span>Pad 4</span>
+            <div class="map-actions">
+              Nota: <strong id="map-4">53</strong>
+              <button type="button" class="btn-learn" data-pad="4">Aprender</button>
+            </div>
+          </li>
         </ul>
       </div>
     </section>
@@ -116,55 +299,3 @@
   <script src="js/audio.js"></script>
 </body>
 </html>
-<div class="pad-grid">
-  <div class="pad-card" data-key="1">
-    <div class="pad-trigger">
-      <span class="pad-key">1</span>
-      <span class="pad-name">Sem Som</span>
-    </div>
-    <input type="file" accept="audio/*" class="file-loader" data-key="1">
-  </div>
-
-  <div class="pad-card" data-key="2">
-    <div class="pad-trigger">
-      <span class="pad-key">2</span>
-      <span class="pad-name">Sem Som</span>
-    </div>
-    <input type="file" accept="audio/*" class="file-loader" data-key="2">
-  </div>
-
-  <div class="pad-card" data-key="3">
-    <div class="pad-trigger">
-      <span class="pad-key">3</span>
-      <span class="pad-name">Sem Som</span>
-    </div>
-    <input type="file" accept="audio/*" class="file-loader" data-key="3">
-  </div>
-
-  <div class="pad-card" data-key="4">
-    <div class="pad-trigger">
-      <span class="pad-key">4</span>
-      <span class="pad-name">Sem Som</span>
-    </div>
-    <input type="file" accept="audio/*" class="file-loader" data-key="4">
-  </div>
-</div>
-<header class="app-header">
-  <div class="logo">⚡ WebSampler</div>
-  <nav class="nav-tabs">
-    <button class="tab-btn active" data-target="view-pads">🎛️ Pads</button>
-    <button class="tab-btn" data-target="view-fx">🎚️ Efeitos & EQ</button>
-    <button class="tab-btn" data-target="view-midi">🎹 Configuração MIDI</button>
-  </nav>
-  
-  <!-- Seletor de Modo de Resolução -->
-  <div class="header-tools">
-    <select id="resolution-selector" class="resolution-select">
-      <option value="auto">🖥️ Resolução: Auto</option>
-      <option value="res-mobile">📱 Mobile (375x667)</option>
-      <option value="res-tablet">📟 Tablet (768x1024)</option>
-      <option value="res-desktop">💻 Desktop (1280x800)</option>
-    </select>
-    <div class="midi-quick-status" id="quick-status">MIDI: Desconectado</div>
-  </div>
-</header>
