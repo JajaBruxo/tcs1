@@ -1,10 +1,12 @@
-import { fetchPresetsFromServer, submitPresetToServer } from './api.js';
+import {
+  fetchPresetsFromServer,
+  submitPresetToServer,
+  updatePresetOnServer,
+  deletePresetFromServer
+} from './api.js';
 
 let currentFilterCategory = 'Todos';
-let presetsList = [
-  { id: 1, name: 'BoomBap Essentials', bpm: 90, category: 'Hip-Hop' },
-  { id: 2, name: 'Synthwave 80s Kit', bpm: 126, category: 'Eletrónica' }
-];
+let presetsList = [];
 
 function setBannerState(type, message) {
   const banner = document.getElementById('api-status-banner');
@@ -44,32 +46,70 @@ export function renderPresets() {
     itemEl.className = 'preset-item';
     itemEl.innerHTML = `
       <div class="preset-meta">
-        <h4>${preset.name}</h4>
+        <h4>#${preset.id} - ${preset.name}</h4>
         <span>${preset.category} | ${preset.bpm} BPM</span>
       </div>
-      <button class="btn-delete-preset" data-id="${preset.id}">Remover</button>
+      <div style="display:flex; gap:6px;">
+        <button class="btn-learn btn-edit-preset" data-id="${preset.id}">Editar (PUT)</button>
+        <button class="btn-delete-preset" data-id="${preset.id}">Remover</button>
+      </div>
     `;
     container.appendChild(itemEl);
   });
 
+  // Evento DELETE na API
   container.querySelectorAll('.btn-delete-preset').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', async (e) => {
       const idToDelete = Number(e.target.getAttribute('data-id'));
-      presetsList = presetsList.filter(p => p.id !== idToDelete);
-      renderPresets();
+      setBannerState('loading', `⏳ A remover preset #${idToDelete} no servidor...`);
+      try {
+        await deletePresetFromServer(idToDelete);
+        presetsList = presetsList.filter(p => p.id !== idToDelete);
+        renderPresets();
+        setBannerState('success', `✅ Preset #${idToDelete} excluído com sucesso via DELETE!`);
+      } catch (error) {
+        setBannerState('error', `❌ Erro ao excluir: ${error.message}`);
+      }
+    });
+  });
+
+  // Evento PUT na API
+  container.querySelectorAll('.btn-edit-preset').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      const idToEdit = Number(e.target.getAttribute('data-id'));
+      const current = presetsList.find(p => p.id === idToEdit);
+      if (!current) return;
+
+      const newName = prompt('Novo nome do Preset (mín. 3 caracteres):', current.name);
+      if (newName === null) return;
+      const newBpm = prompt('Novo BPM (40 a 240):', current.bpm);
+      if (newBpm === null) return;
+
+      setBannerState('loading', `⏳ A atualizar preset #${idToEdit} no servidor...`);
+      try {
+        const updated = await updatePresetOnServer(idToEdit, {
+          name: newName,
+          bpm: Number(newBpm),
+          category: current.category
+        });
+        presetsList = presetsList.map(p => (p.id === idToEdit ? updated : p));
+        renderPresets();
+        setBannerState('success', `✅ Preset "${updated.name}" atualizado via PUT!`);
+      } catch (error) {
+        setBannerState('error', `❌ Erro ao atualizar: ${error.message}`);
+      }
     });
   });
 }
 
 export async function loadExternalPresets() {
   toggleLoadingControls(true);
-  setBannerState('loading', '⏳ A carregar presets do servidor externo...');
+  setBannerState('loading', '⏳ A consultar presets na API REST local...');
 
   try {
-    const cloudPresets = await fetchPresetsFromServer();
-    presetsList = [...cloudPresets, ...presetsList.slice(0, 2)];
+    presetsList = await fetchPresetsFromServer();
     renderPresets();
-    setBannerState('success', '✅ Presets sincronizados com sucesso a partir da API!');
+    setBannerState('success', '✅ Presets carregados com sucesso da API REST!');
   } catch (error) {
     setBannerState('error', `❌ Erro de comunicação: ${error.message}`);
   } finally {
@@ -78,8 +118,6 @@ export async function loadExternalPresets() {
 }
 
 export function initPresetsModule() {
-  renderPresets();
-
   const btnCloud = document.getElementById('btn-fetch-cloud');
   if (btnCloud) {
     btnCloud.addEventListener('click', loadExternalPresets);
@@ -134,9 +172,8 @@ export function initPresetsModule() {
 
     if (!isValid) return;
 
-    // Submissão assíncrona ao servidor (POST)
     toggleLoadingControls(true);
-    setBannerState('loading', '⏳ A enviar novo preset para o servidor...');
+    setBannerState('loading', '⏳ A enviar novo preset para a API REST...');
 
     try {
       const savedPreset = await submitPresetToServer({
@@ -148,7 +185,7 @@ export function initPresetsModule() {
       presetsList.unshift(savedPreset);
       renderPresets();
       form.reset();
-      setBannerState('success', `✅ Preset "${savedPreset.name}" guardado no servidor com sucesso!`);
+      setBannerState('success', `✅ Preset "${savedPreset.name}" criado na API (HTTP 201)!`);
     } catch (error) {
       setBannerState('error', `❌ Erro ao submeter: ${error.message}`);
     } finally {

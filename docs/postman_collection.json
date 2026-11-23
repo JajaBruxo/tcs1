@@ -1,0 +1,91 @@
+{
+  "info": {
+    "name": "WebSampler Studio API - Etapa 06",
+    "description": "Coleção de testes dos endpoints do recurso Presets",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Consultar todos os Presets (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/presets",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "presets"]
+        }
+      }
+    },
+    {
+      "name": "2. Consultar Preset Individual (GET por ID)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/presets/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "presets", "1"]
+        }
+      }
+    },
+    {
+      "name": "3. Criar Novo Preset (POST)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Lo-Fi Midnight Kit\",\n  \"bpm\": 82,\n  \"category\": \"Hip-Hop\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/presets",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "presets"]
+        }
+      }
+    },
+    {
+      "name": "4. Atualizar Preset Existente (PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"BoomBap Essentials V2\",\n  \"bpm\": 94,\n  \"category\": \"Hip-Hop\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/presets/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "presets", "1"]
+        }
+      }
+    },
+    {
+      "name": "5. Excluir Preset (DELETE)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/presets/2",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "presets", "2"]
+        }
+      }
+    }
+  ]
+}

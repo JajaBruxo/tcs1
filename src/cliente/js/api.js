@@ -1,7 +1,5 @@
-const API_URL = 'https://jsonplaceholder.typicode.com/posts';
-const CATEGORIES = ['Hip-Hop', 'Eletrónica', 'Rock', 'Experimental'];
+const API_URL = 'http://localhost:3000/api/presets';
 
-// Pausa auxiliar para tornar o estado de carregamento visível na interface
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 function shouldSimulateError() {
@@ -9,55 +7,92 @@ function shouldSimulateError() {
   return chk && chk.checked;
 }
 
-/**
- * Operação de Consulta (GET) - Obtém presets externos da API
- */
 export async function fetchPresetsFromServer() {
-  await delay(900); // Permite visualizar o estado de loading
-
+  await delay(500);
   if (shouldSimulateError()) {
     throw new Error('Falha de comunicação com o servidor (Erro 503 Simulado).');
   }
 
-  const response = await fetch(`${API_URL}?_limit=4`);
+  const response = await fetch(API_URL);
+  const result = await response.json();
+
   if (!response.ok) {
-    throw new Error(`Erro HTTP ao consultar dados: Status ${response.status}`);
+    throw new Error(result.message || 'Erro ao consultar presets.');
   }
 
-  const data = await response.json();
-
-  // Mapeia os dados externos para a estrutura do WebSampler
-  return data.map((item, index) => ({
-    id: item.id + 100,
-    name: `Cloud Kit #${item.id}: ${item.title.slice(0, 15)}`,
-    bpm: 85 + (index * 15),
-    category: CATEGORIES[index % CATEGORIES.length]
-  }));
+  return result.data;
 }
 
-/**
- * Operação de Submissão (POST) - Envia um novo preset para o servidor
- */
-export async function submitPresetToServer(presetData) {
-  await delay(900);
+export async function fetchPresetByIdFromServer(id) {
+  const response = await fetch(`${API_URL}/${id}`);
+  const result = await response.json();
 
+  if (!response.ok) {
+    throw new Error(result.message || 'Preset não encontrado.');
+  }
+
+  return result.data;
+}
+
+export async function submitPresetToServer(presetData) {
+  await delay(500);
   if (shouldSimulateError()) {
     throw new Error('Não foi possível submeter o preset: Servidor indisponível.');
   }
 
   const response = await fetch(API_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(presetData)
   });
 
+  const result = await response.json();
+
   if (!response.ok) {
-    throw new Error(`Falha ao submeter dados: Status ${response.status}`);
+    const detail = result.errors ? result.errors.join(' ') : result.message;
+    throw new Error(detail || 'Falha ao criar preset.');
   }
 
-  const created = await response.json();
-  return {
-    ...presetData,
-    id: created.id ? created.id + Date.now() : Date.now()
-  };
+  return result.data;
+}
+
+export async function updatePresetOnServer(id, presetData) {
+  await delay(400);
+  if (shouldSimulateError()) {
+    throw new Error('Falha de comunicação ao tentar atualizar o preset.');
+  }
+
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(presetData)
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    const detail = result.errors ? result.errors.join(' ') : result.message;
+    throw new Error(detail || 'Falha ao atualizar preset.');
+  }
+
+  return result.data;
+}
+
+export async function deletePresetFromServer(id) {
+  await delay(300);
+  if (shouldSimulateError()) {
+    throw new Error('Falha de comunicação ao tentar excluir o preset.');
+  }
+
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: 'DELETE'
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || 'Falha ao remover preset.');
+  }
+
+  return result.data;
 }
